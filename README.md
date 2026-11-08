@@ -1,152 +1,88 @@
-<div align="center">
-  <h1>🛡️ Correctover</h1>
-  <p><strong>MCP Server Security Audit Platform — IETF CCS 7-Dimension Verification</strong></p>
+# 🔍 Correctover - MCP Security Scanner
 
-  <!-- Badges -->
-  <a href="https://github.com/DSHCorrectover/correctover-scan/actions"><img src="https://github.com/DSHCorrectover/correctover-scan/workflows/CI/badge.svg" alt="CI"></a>
-  <a href="https://www.npmjs.com/package/correctover-scan"><img src="https://img.shields.io/npm/v/correctover-scan.svg" alt="npm version"></a>
-  <a href="https://pypi.org/project/ccs-verifier/"><img src="https://img.shields.io/pypi/v/ccs-verifier" alt="PyPI"></a>
-  <a href="https://github.com/DSHCorrectover/correctover/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Proprietary-blue.svg" alt="License"></a>
-  <a href="https://correctover-census.pages.dev/rankings"><img src="https://img.shields.io/badge/MCP_Census-42,163_servers-green" alt="MCP Census"></a>
+[![CI](https://img.shields.io/github/actions/workflow/status/DSHCorrectover/correctover-web/ci.yml)](https://github.com/DSHCorrectover/correctover-web/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Census](https://img.shields.io/badge/Census-42,163_servers-blue)](https://correctover-census.pages.dev)
+[![Launch](https://img.shields.io/badge/Launch-2026--11--08-green)](./COMMERCIAL_LAUNCH_PLAN_20261108.md)
 
-  <br>
-  <br>
+**Free MCP security scanner with viral referral system.** Audit your AI agent ecosystem in seconds.
 
-  <a href="https://correctover-census.pages.dev">Live Census</a> •
-  <a href="https://correctover-production.up.railway.app">Platform</a> •
-  <a href="mailto:wangguigui@correctover.com">Contact</a>
-</div>
+## 🚀 Quick Start
+
+### Web Scanner (No Install Required)
+Visit: https://7adbffc3.correctover-web.pages.dev/scan.html
+
+1. Enter your MCP server URL
+2. Get instant security score (0-100)
+3. Share results → Unlock rewards
+
+### CLI Tool (For Developers)
+```bash
+# Coming soon to npm
+npm install -g correctover-scan
+correctover-scan https://your-mcp-server.example.com
+```
+
+## 📊 Live Census Data
+
+We audited **42,163 MCP servers** and **229,539 tools**. Key findings:
+
+- ⚠️ **48.8%** have NO authentication
+- ⚠️ **Only 0.67%** have proper licenses
+- ⚠️ **10.95%** can execute arbitrary commands
+
+Browse full dataset: https://correctover-census.pages.dev
+
+## 🎁 Referral Program
+
+Share your scan results → Unlock premium features:
+
+| Referrals | Reward |
+|-----------|--------|
+| 1 friend | Detailed report |
+| 3 friends | API access (100 scans/month) |
+| 10 friends | Founding Member discount (50% OFF) |
+| 25 friends | Free full audit (worth ¥35,000) |
+
+Your unique link: `https://7adbffc3.correctover-web.pages.dev/scan.html?ref=YOUR_ID`
+
+## 💼 Founding Member Program
+
+**Limited offer**: First 10 companies get:
+
+- ✅ Full MCP ecosystem audit
+- ✅ "MCP Atlas Certified" badge
+- ✅ Priority API access (10K audits/month)
+- ✅ Lifetime 50% discount
+- ✅ Quarterly security reviews (Year 1 free)
+
+**Investment**: ¥17,500 (normally ¥35,000)  
+**Payment**: https://7adbffc3.correctover-web.pages.dev/payment.html
+
+## 🛠️ Technology Stack
+
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
+- **Backend**: Cloudflare Pages (serverless)
+- **Database**: Prisma + SQLite (local), Supabase (production)
+- **Email**: 163 Enterprise SMTP + SendGrid (fallback)
+- **Monitoring**: Automated bounce detection every 6h
+
+## 📈 Commercial Launch Status
+
+**Current Phase**: Phase 4 - Early Access Launch  
+**Launch Date**: 2026-11-08  
+**Target**: 10 Founding Members by 2026-12-08
+
+See full plan: [COMMERCIAL_LAUNCH_PLAN_20261108.md](./COMMERCIAL_LAUNCH_PLAN_20261108.md)
+
+## 🤝 Contributing
+
+PRs welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## 📄 License
+
+MIT © Correctover
 
 ---
 
-## Why Correctover?
-
-The first independent security census of the MCP ecosystem:
-- **42,163** servers probed via live protocol handshake
-- **229,539** tools analyzed with full parameter inspection
-- **10.95%** flagged as high-consequence across 5 risk categories
-
-Built on IETF `draft-correctover-ccs-10` — the 7-dimension verification framework for AI agent tool safety.
-
-## Quick Start
-
-### 1. Install the Scanner
-
-```bash
-npm install -g correctover-scan
-```
-
-### 2. Run Your First Audit
-
-```bash
-correctover-scan --server https://your-mcp-server.com
-```
-
-### 3. View Results
-
-```
-✓ Structure: 92/100
-✓ Schema: 88/100
-⚠ Security: 65/100 (3 warnings)
-```
-
-## CCS 7-Dimension Framework
-
-| Dimension | What It Checks | Risk Level |
-|-----------|---------------|------------|
-| **Structure** | Tool organization, naming, metadata | Low |
-| **Schema** | Input/output validation, type safety | Medium |
-| **Latency** | Response time, timeout handling | Low |
-| **Cost** | Rate limiting, resource usage | Medium |
-| **Identity** | Auth, API keys, OAuth flows | High |
-| **Integrity** | Data consistency, idempotency | High |
-| **Security** | SSRF, injection, credential exposure | Critical |
-
-## gg: Parameter Risk Categories
-
-| Category | Tools Affected | % of Total |
-|----------|---------------|------------|
-| `gg:url-endpoint` | 31,880 | 13.89% |
-| `gg:command-string` | 23,847 | 10.39% |
-| `gg:money-amount` | 15,229 | 6.64% |
-| `gg:credential-value` | 14,753 | 6.43% |
-| `gg:filesystem-path` | 5,569 | 2.43% |
-
-## Products
-
-### 🔍 correctover-scan (npm)
-CLI tool for MCP server security audits. Zero-config, instant results.
-
-```bash
-npm install -g correctover-scan
-correctover-scan --help
-```
-
-### 🛡️ agent-runtime-guard (npm)
-Runtime protection for AI agents. Intercepts dangerous tool calls.
-
-```bash
-npm install agent-runtime-guard
-```
-
-### 📊 ccs-verifier (PyPI)
-Python library for CCS conformance testing.
-
-```bash
-pip install ccs-verifier
-```
-
-### 🌐 SaaS Platform
-Full audit management with team collaboration, reporting, and compliance tracking.
-
-→ [Platform Login](https://correctover-production.up.railway.app)
-
-## MCP Security Census
-
-We maintain the largest independent database of MCP server security ratings.
-
-→ [View Rankings](https://correctover-census.pages.dev/rankings)
-
-**Key Findings**:
-- 48.80% of servers openly accessible without authentication
-- Only 0.67% declare proper open-source licenses
-- 5 high-consequence risk categories affect 10.95% of all tools
-
-## For Enterprise
-
-| Plan | Price | Features |
-|------|-------|----------|
-| **Founding Member** | ¥35,000 | One-time audit + lifetime 50% discount |
-| **Standard** | ¥50,000 | Full audit + API access |
-| **Enterprise** | ¥100,000/year | Unlimited audits + SLA |
-| **API Starter** | ¥199/month | 100 audits/month |
-
-**Payment Methods**: Stripe, Alipay, USDC (Base), Wire Transfer
-
-## Documentation
-
-- [CCS Specification (IETF Draft)](https://datatracker.ietf.org/doc/draft-correctover-ccs/)
-- [gg: Parameter Risk Standard](https://datatracker.ietf.org/doc/draft-correctover-gg-mcp-parameter-risk/)
-- [API Reference](https://docs.correctover.com)
-- [Integration Guide](https://docs.correctover.com/integrations)
-
-## Contributing
-
-We welcome security researchers and MCP developers:
-- Report vulnerabilities: security@correctover.com
-- Submit census data: census@correctover.com
-- Feature requests: GitHub Issues
-
-## License
-
-Proprietary © Correctover 2026
-
----
-
-<div align="center">
-
-**Built with 🛡️ for the MCP ecosystem**
-
-[Anthropic](https://anthropic.com) • [Cloudflare](https://cloudflare.com) • [Vercel](https://vercel.com) — *We've shared our findings with these platform builders*
-
-</div>
+Built with ❤️ for the MCP community by Guigui Wang
