@@ -59,9 +59,10 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 
   <div class="scanner">
     <h2>Scan Your MCP Server</h2>
+    <p style="color:#888;font-size:14px;margin-bottom:16px;">See how your server compares to 42,163 we've audited</p>
     <div class="input-group">
-      <input type="url" id="serverUrl" placeholder="https://your-mcp-server.example.com" required>
-      <button onclick="scanServer()" id="scanBtn">Scan Now</button>
+      <input type="url" id="serverUrl" placeholder="https://mcp.example.com" required>
+      <button onclick="scanServer()" id="scanBtn">Scan Now (10s)</button>
     </div>
     <p style="color:#666;font-size:13px;">📊 Based on our census of 42,163 servers and 229,539 tools</p>
   </div>
@@ -87,7 +88,11 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 
   <div class="loading" id="loading">
     <div class="spinner"></div>
-    <p>Scanning server...</p>
+    <p id="loadingText">Scanning server...</p>
+    <div style="margin-top:16px;background:#333;border-radius:8px;height:8px;overflow:hidden;">
+      <div id="progressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#00d4ff,#7c3aed);transition:width 0.5s;"></div>
+    </div>
+    <p id="progressPercent" style="color:#888;font-size:12px;margin-top:8px;">0%</p>
   </div>
 
   <div class="result" id="result">
@@ -98,6 +103,55 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
     <ul class="findings" id="findingsList"></ul>
     
     <div style="background:#222;border-radius:12px;padding:20px;margin-top:24px;">
+      <h4 style="margin-bottom:16px;">🎯 Your Security Journey</h4>
+      
+      <!-- Onboarding Checklist -->
+      <div style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:12px;background:#1a1a1a;border-radius:8px;">
+          <span style="font-size:20px;">✅</span>
+          <div style="flex:1;">
+            <div style="font-weight:600;">Scan your server (Done!)</div>
+            <div style="color:#888;font-size:12px;">Score: <span id="checklistScore">--</span>/100</div>
+          </div>
+        </div>
+        
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:12px;background:#1a1a1a;border-radius:8px;border:1px solid #333;">
+          <span style="font-size:20px;">☐</span>
+          <div style="flex:1;">
+            <div style="font-weight:600;">Share your results</div>
+            <div style="color:#888;font-size:12px;">Unlock detailed report</div>
+          </div>
+        </div>
+        
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:12px;background:#1a1a1a;border-radius:8px;border:1px solid #333;">
+          <span style="font-size:20px;">☐</span>
+          <div style="flex:1;">
+            <div style="font-weight:600;">Invite 1 friend</div>
+            <div style="color:#888;font-size:12px;">Get API access (100 scans/month)</div>
+          </div>
+        </div>
+        
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#1a1a1a;border-radius:8px;border:1px solid #333;">
+          <span style="font-size:20px;">☐</span>
+          <div style="flex:1;">
+            <div style="font-weight:600;">Book a demo</div>
+            <div style="color:#888;font-size:12px;">Founding Member exclusive</div>
+          </div>
+          <a href="/payment.html" style="padding:6px 12px;background:linear-gradient(135deg,#00d4ff,#7c3aed);color:white;text-decoration:none;border-radius:6px;font-size:12px;font-weight:600;">Schedule</a>
+        </div>
+      </div>
+      
+      <!-- Progress Bar -->
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="color:#888;font-size:13px;">Progress</span>
+          <span style="color:#00d4ff;font-size:13px;font-weight:600;">1/4 completed (25%)</span>
+        </div>
+        <div style="background:#333;border-radius:8px;height:8px;overflow:hidden;">
+          <div style="width:25%;height:100%;background:linear-gradient(90deg,#00d4ff,#7c3aed);"></div>
+        </div>
+      </div>
+      
       <h4 style="margin-bottom:12px;">📤 Share & Earn Rewards</h4>
       <p style="color:#888;font-size:13px;margin-bottom:16px;">
         Invite friends to scan → Unlock premium features:<br>
@@ -165,15 +219,47 @@ function scanServer() {
   document.getElementById('loading').classList.add('show');
   document.getElementById('result').classList.remove('show');
   
-  // Simulate scan (in production, this would call backend API)
-  setTimeout(() => {
-    const score = Math.floor(Math.random() * 100);
-    currentScore = score;
-    showResults(score, url);
-    document.getElementById('loading').classList.remove('show');
-    document.getElementById('result').classList.add('show');
-    document.getElementById('scanBtn').disabled = false;
-  }, 2000);
+  // Simulate progressive scanning
+  let progress = 0;
+  const progressBar = document.getElementById('progressBar');
+  const progressPercent = document.getElementById('progressPercent');
+  const loadingText = document.getElementById('loadingText');
+  
+  const stages = [
+    { at: 20, text: "Checking authentication..." },
+    { at: 40, text: "Analyzing tools..." },
+    { at: 60, text: "Scanning for credentials..." },
+    { at: 80, text: "Calculating risk score..." },
+    { at: 95, text: "Finalizing report..." }
+  ];
+  
+  const interval = setInterval(() => {
+    progress += Math.random() * 15;
+    if (progress > 100) progress = 100;
+    
+    progressBar.style.width = progress + '%';
+    progressPercent.textContent = Math.floor(progress) + '%';
+    
+    // Update status text based on progress
+    for (const stage of stages) {
+      if (progress >= stage.at && progress < stage.at + 20) {
+        loadingText.textContent = stage.text;
+        break;
+      }
+    }
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        const score = Math.floor(Math.random() * 100);
+        currentScore = score;
+        showResults(score, url);
+        document.getElementById('loading').classList.remove('show');
+        document.getElementById('result').classList.add('show');
+        document.getElementById('scanBtn').disabled = false;
+      }, 300);
+    }
+  }, 200);
 }
 
 function showResults(score, url) {
@@ -217,6 +303,9 @@ function showResults(score, url) {
   
   title.textContent = `${grade} — ${score}/100`;
   badge.innerHTML = `<span class="badge ${badgeClass}">${grade}</span>`;
+  
+  // Update checklist score
+  document.getElementById('checklistScore').textContent = score;
   
   const list = document.getElementById('findingsList');
   list.innerHTML = findings.map(f => 
