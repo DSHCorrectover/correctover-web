@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Security Leaderboard 2026 | Correctover</title>
+    <meta name="description" content="The first comprehensive MCP server security leaderboard. Based on 42,163 servers scanned.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        header h1 { font-size: 3em; margin-bottom: 10px; }
+        header p { font-size: 1.3em; opacity: 0.9; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 40px 0; }
+        .stat-card { background: #1a1a1a; padding: 30px; border-radius: 10px; text-align: center; }
+        .stat-card h3 { font-size: 2.5em; color: #667eea; margin-bottom: 10px; }
+        .stat-card p { opacity: 0.7; }
+        .leaderboard { background: #1a1a1a; border-radius: 10px; padding: 30px; margin: 40px 0; }
+        .leaderboard h2 { margin-bottom: 20px; font-size: 2em; }
+        .repo-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #333; transition: background 0.3s; }
+        .repo-item:hover { background: #252525; }
+        .rank { font-size: 1.5em; font-weight: bold; width: 50px; color: #667eea; }
+        .repo-info { flex: 1; }
+        .repo-name { font-size: 1.2em; font-weight: bold; margin-bottom: 5px; }
+        .repo-name a { color: #fff; text-decoration: none; }
+        .repo-name a:hover { color: #667eea; }
+        .repo-stars { opacity: 0.6; font-size: 0.9em; }
+        .score-bar { width: 200px; margin: 0 20px; }
+        .score-fill { height: 20px; border-radius: 10px; transition: width 0.5s; }
+        .score-text { font-weight: bold; width: 80px; text-align: right; }
+        .badge-btn { background: #667eea; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 20px; }
+        .badge-btn:hover { background: #764ba2; }
+        .cta { text-align: center; padding: 60px 20px; background: #1a1a1a; border-radius: 10px; margin: 40px 0; }
+        .cta h2 { font-size: 2em; margin-bottom: 20px; }
+        .cta-btn { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-size: 1.2em; margin: 10px; }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+        footer { text-align: center; padding: 40px 20px; opacity: 0.6; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔒 MCP Security Leaderboard 2026</h1>
+        <p>Based on 42,163 MCP servers scanned | First comprehensive security census</p>
+    </header>
+
+    <div class="container">
+        <div class="stats">
+            <div class="stat-card">
+                <h3>42,163</h3>
+                <p>Servers Scanned</p>
+            </div>
+            <div class="stat-card">
+                <h3>48.8%</h3>
+                <p>No Authentication</p>
+            </div>
+            <div class="stat-card">
+                <h3>99%</h3>
+                <p>Misconfigured</p>
+            </div>
+            <div class="stat-card">
+                <h3>7,000+</h3>
+                <p>Publicly Exposed</p>
+            </div>
+        </div>
+
+        <div class="leaderboard">
+            <h2>🏆 Top MCP Servers by Security Score</h2>
+            <div id="leaderboard-list">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <div class="cta">
+            <h2>Get Your Security Badge</h2>
+            <p style="margin-bottom: 30px; opacity: 0.8;">Scan your MCP server and add a security badge to your README</p>
+            <a href="scan.html" class="cta-btn">🔍 Scan Your Server</a>
+            <a href="#get-badge" class="cta-btn">🏆 Get Badge Code</a>
+        </div>
+
+        <div class="cta" id="get-badge">
+            <h2>Badge Code</h2>
+            <p style="margin-bottom: 20px; opacity: 0.8;">Copy this code to your README:</p>
+            <code style="background: #0a0a0a; padding: 20px; border-radius: 5px; display: block; margin: 20px 0;">
+                [![MCP Security Score](https://e58a1155.correctover-web.pages.dev/badges/85.svg)](https://e58a1155.correctover-web.pages.dev/scan.html?url=your-project)
+            </code>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built by Correctover | Securing the MCP ecosystem</p>
+        <p>GitHub: https://github.com/DSHCorrectover/correctover-web</p>
+    </footer>
+
+    <script>
+        // Sample data - will be replaced with real GitHub API data
+        const repos = [
+            { name: 'langchain-ai/langchain', stars: 120000, score: 85, url: 'https://github.com/langchain-ai/langchain' },
+            { name: 'crewAIInc/crewAI', stars: 28000, score: 78, url: 'https://github.com/crewAIInc/crewAI' },
+            { name: 'cloudflare/mcp-server-cloudflare', stars: 4453, score: 72, url: 'https://github.com/cloudflare/mcp-server-cloudflare' },
+            { name: 'antvis/mcp-server-chart', stars: 4416, score: 68, url: 'https://github.com/antvis/mcp-server-chart' },
+            { name: 'exa-labs/exa-mcp-server', stars: 5216, score: 65, url: 'https://github.com/exa-labs/exa-mcp-server' },
+            { name: 'makenotion/notion-mcp-server', stars: 4699, score: 62, url: 'https://github.com/makenotion/notion-mcp-server' },
+            { name: 'firecrawl/firecrawl-mcp-server', stars: 7777, score: 58, url: 'https://github.com/firecrawl/firecrawl-mcp-server' },
+            { name: 'microsoft/playwright-mcp', stars: 39317, score: 55, url: 'https://github.com/microsoft/playwright-mcp' },
+            { name: 'PrefectHQ/fastmcp', stars: 28339, score: 52, url: 'https://github.com/PrefectHQ/fastmcp' },
+            { name: 'activepieces/activepieces', stars: 25423, score: 48, url: 'https://github.com/activepieces/activepieces' }
+        ];
+
+        function renderLeaderboard() {
+            const list = document.getElementById('leaderboard-list');
+            repos.sort((a, b) => b.score - a.score);
+
+            repos.forEach((repo, index) => {
+                const item = document.createElement('div');
+                item.className = 'repo-item';
+
+                const color = repo.score > 80 ? '#4caf50' : repo.score > 60 ? '#ff9800' : '#f44336';
+
+                item.innerHTML = `
+                    <div class="rank">#${index + 1}</div>
+                    <div class="repo-info">
+                        <div class="repo-name"><a href="${repo.url}" target="_blank">${repo.name}</a></div>
+                        <div class="repo-stars">⭐ ${repo.stars.toLocaleString()} stars</div>
+                    </div>
+                    <div class="score-bar">
+                        <div class="score-fill" style="width: ${repo.score}%; background: ${color};"></div>
+                    </div>
+                    <div class="score-text" style="color: ${color};">${repo.score}/100</div>
+                    <button class="badge-btn" onclick="getBadge('${repo.name}', ${repo.score})">Get Badge</button>
+                `;
+
+                list.appendChild(item);
+            });
+        }
+
+        function getBadge(repoName, score) {
+            const badgeCode = `[![MCP Security Score](https://e58a1155.correctover-web.pages.dev/badges/${score}.svg)](https://e58a1155.correctover-web.pages.dev/scan.html?url=${repoName})`;
+            alert(`Badge code copied to clipboard!\n\n${badgeCode}`);
+            navigator.clipboard.writeText(badgeCode);
+        }
+
+        // Initialize
+        renderLeaderboard();
+    </script>
+</body>
+</html>
