@@ -1,0 +1,36 @@
+name = "correctover-saas"
+compatibility_date = "2024-11-07"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Account配置
+account_id = "303c07a3929292721f192fad145be8f6"
+
+# Frontend deployment
+[site]
+bucket = "./out"
+
+# Environment variables (set in Cloudflare dashboard for production)
+[vars]
+NODE_ENV = "production"
+API_PORT = "4000"
+
+# Custom domain configuration
+[[routes]]
+pattern = "saas.correctover.com"
+zone_name = "correctover.com"
+
+# Database connection (use Cloudflare D1 or external PostgreSQL)
+[[d1_databases]]
+binding = "DB"
+database_name = "correctover_saas"
+database_id = "YOUR_DATABASE_ID_HERE"
+
+# KV storage for caching
+[[kv_namespaces]]
+binding = "CACHE"
+id = "YOUR_KV_NAMESPACE_ID_HERE"
+
+# R2 storage for audit reports
+[[r2_buckets]]
+binding = "REPORTS"
+bucket_name = "correctover-audit-reports"

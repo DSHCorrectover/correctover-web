@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correctover Founding Member — 24h Offer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .badge { display: inline-block; background: #ff3b30; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 20px; }
+        h1 { font-size: 48px; margin-bottom: 20px; }
+        .price { font-size: 64px; font-weight: 700; color: #00d26a; margin: 20px 0; }
+        .original { font-size: 24px; color: #666; text-decoration: line-through; }
+        .features { list-style: none; margin: 30px 0; }
+        .features li { padding: 12px 0; border-bottom: 1px solid #222; }
+        .features li:before { content: "✅ "; }
+        .cta { display: block; background: #00d26a; color: #000; padding: 20px 40px; text-align: center; text-decoration: none; border-radius: 8px; font-size: 20px; font-weight: 600; margin: 30px 0; }
+        .cta:hover { background: #00e676; }
+        .countdown { background: #1a1a1a; padding: 20px; border-radius: 8px; text-align: center; margin: 30px 0; }
+        .timer { font-size: 36px; font-weight: 700; color: #ff3b30; }
+        .payment { background: #1a1a1a; padding: 30px; border-radius: 8px; margin: 30px 0; }
+        .payment h3 { margin-bottom: 20px; }
+        .payment-method { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #333; }
+        .footer { text-align: center; color: #666; margin-top: 40px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="badge">⏰ 24 小时限时优惠</div>
+        <h1>Founding Member</h1>
+        <p style="font-size: 20px; color: #999;">MCP 安全审计平台创始会员</p>
+        
+        <div class="price">
+            ¥17,500
+            <span class="original">¥35,000</span>
+        </div>
+        <p style="color: #00d26a; font-size: 18px;">50% OFF — 仅限 24 小时</p>
+        
+        <div class="countdown">
+            <p>优惠截止</p>
+            <div class="timer" id="timer">23:59:59</div>
+        </div>
+        
+        <ul class="features">
+            <li>完整 MCP 生态系统安全审计</li>
+            <li>终身 50% 折扣（所有未来审计）</li>
+            <li>优先 API 访问（10,000 次审计/月）</li>
+            <li>定制风险评估报告</li>
+            <li>"MCP Atlas Certified" 认证徽章</li>
+            <li>季度安全审查（首年免费）</li>
+            <li>直接集成支持（API + Webhook）</li>
+        </ul>
+        
+        <a href="mailto:wangguigui@correctover.com?subject=Founding%20Member%20Signup" class="cta">
+            立即成为创始会员 →
+        </a>
+        
+        <div class="payment">
+            <h3>支付方式</h3>
+            <div class="payment-method">
+                <span>💳 支付宝</span>
+                <span>¥17,500</span>
+            </div>
+            <div class="payment-method">
+                <span>💳 Stripe (信用卡)</span>
+                <span>$2,400</span>
+            </div>
+            <div class="payment-method">
+                <span>💎 USDC (Base Chain)</span>
+                <span>~2,400 USDC</span>
+            </div>
+            <div class="payment-method">
+                <span>🏦 电汇 (Citibank)</span>
+                <span>$2,400</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>仅限 10 个创始会员名额 · 已预订 3 席</p>
+            <p>联系：wangguigui@correctover.com · +86 138-xxxx-xxxx</p>
+            <p>© 2026 Correctover. All rights reserved.</p>
+        </div>
+    </div>
+    
+    <script>
+        // 24 小时倒计时
+        const deadline = new Date().getTime() + 24 * 60 * 60 * 1000;
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = deadline - now;
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById('timer').innerText = 
+                `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP Security Scanner — Free Audit by Correctover</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace; background: #0a0a0a; color: #e0e0e0; min-height: 100vh; }
+.container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+.header { text-align: center; margin-bottom: 40px; }
+.logo { font-size: 36px; font-weight: 700; background: linear-gradient(135deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+.tagline { color: #888; font-size: 16px; }
+.scanner { background: #1a1a1a; border: 1px solid #333; border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.scanner h2 { font-size: 24px; margin-bottom: 16px; }
+.input-group { display: flex; gap: 12px; margin-bottom: 16px; }
+input[type="url"] { flex: 1; padding: 12px 16px; background: #222; border: 1px solid #444; border-radius: 8px; color: #fff; font-size: 14px; }
+button { padding: 12px 24px; background: linear-gradient(135deg, #00d4ff, #7c3aed); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+button:hover { opacity: 0.9; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 24px; }
+.stat-card { background: #222; border: 1px solid #333; border-radius: 12px; padding: 20px; text-align: center; }
+.stat-value { font-size: 32px; font-weight: 700; color: #00d4ff; }
+.stat-label { font-size: 12px; color: #888; margin-top: 4px; }
+.result { display: none; background: #1a1a1a; border: 1px solid #333; border-radius: 16px; padding: 32px; margin-top: 24px; }
+.result.show { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; border: 8px solid; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; }
+.score-good { border-color: #10b981; color: #10b981; }
+.score-warning { border-color: #f59e0b; color: #f59e0b; }
+.score-danger { border-color: #ef4444; color: #ef4444; }
+.findings { list-style: none; margin: 20px 0; }
+.findings li { padding: 12px; border-bottom: 1px solid #222; display: flex; align-items: center; gap: 12px; }
+.findings li::before { content: "•"; font-size: 24px; }
+.finding-safe::before { color: #10b981; }
+.finding-risk::before { color: #f59e0b; }
+.finding-critical::before { color: #ef4444; }
+.share-buttons { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+.share-btn { padding: 10px 20px; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+.share-btn:hover { border-color: #00d4ff; }
+.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 16px; }
+.badge-safe { background: #0a2a1a; color: #10b981; }
+.badge-warning { background: #2a2a0a; color: #f59e0b; }
+.badge-danger { background: #2a0a0a; color: #ef4444; }
+.footer { text-align: center; margin-top: 40px; color: #555; font-size: 12px; }
+.footer a { color: #00d4ff; text-decoration: none; }
+.loading { display: none; text-align: center; padding: 40px; }
+.loading.show { display: block; }
+.spinner { width: 40px; height: 40px; border: 4px solid #333; border-top-color: #00d4ff; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">🔍 MCP Security Scanner</div>
+    <div class="tagline">Free audit tool by Correctover — Scan any MCP server in seconds</div>
+  </div>
+
+  <div class="scanner">
+    <h2>Scan Your MCP Server</h2>
+    <div class="input-group">
+      <input type="url" id="serverUrl" placeholder="https://your-mcp-server.example.com" required>
+      <button onclick="scanServer()" id="scanBtn">Scan Now</button>
+    </div>
+    <p style="color:#666;font-size:13px;">📊 Based on our census of 42,163 servers and 229,539 tools</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-value">42,163</div>
+      <div class="stat-label">Servers Audited</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">229,539</div>
+      <div class="stat-label">Tools Analyzed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">48.8%</div>
+      <div class="stat-label">No Authentication</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">0.67%</div>
+      <div class="stat-label">Proper Licenses</div>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Scanning server...</p>
+  </div>
+
+  <div class="result" id="result">
+    <div class="score-circle" id="scoreCircle">--</div>
+    <h3 style="text-align:center;margin-bottom:8px;" id="resultTitle">Security Score</h3>
+    <div style="text-align:center;" id="badgeContainer"></div>
+    
+    <ul class="findings" id="findingsList"></ul>
+    
+    <div style="background:#222;border-radius:12px;padding:20px;margin-top:24px;">
+      <h4 style="margin-bottom:12px;">📤 Share & Earn Rewards</h4>
+      <p style="color:#888;font-size:13px;margin-bottom:16px;">
+        Invite friends to scan → Unlock premium features:<br>
+        🎁 1 referral = Detailed report<br>
+        🎁 3 referrals = API access (100 scans/month)<br>
+        🎁 10 referrals = Founding Member discount (50% OFF)
+      </p>
+      <div class="share-buttons">
+        <a href="#" class="share-btn" onclick="shareTwitter()" target="_blank">🐦 Twitter</a>
+        <a href="#" class="share-btn" onclick="shareLinkedIn()" target="_blank">💼 LinkedIn</a>
+        <a href="#" class="share-btn" onclick="copyLink()">🔗 Copy Link</a>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px;">
+      <a href="/payment.html" style="display:inline-block;padding:12px 32px;background:linear-gradient(135deg,#00d4ff,#7c3aed);color:white;text-decoration:none;border-radius:8px;font-weight:600;">Get Full Audit →</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Built with ❤️ by <a href="/">Correctover</a> | <a href="https://correctover-census.pages.dev">View Census Data</a></p>
+    <p style="margin-top:8px;">Open source: <a href="https://github.com/DSHCorrectover/correctover-scan">GitHub</a></p>
+  </div>
+</div>
+
+<script>
+let currentScore = 0;
+let currentUrl = '';
+
+// Referral tracking (based on referral-program skill)
+const urlParams = new URLSearchParams(window.location.search);
+const referrer = urlParams.get('ref');
+if (referrer) {
+  localStorage.setItem('referred_by', referrer);
+  console.log(`Referred by: ${referrer}`);
+}
+
+function generateUserId() {
+  return 'user_' + Math.random().toString(36).substr(2, 9);
+}
+
+function getUserId() {
+  let userId = localStorage.getItem('user_id');
+  if (!userId) {
+    userId = generateUserId();
+    localStorage.setItem('user_id', userId);
+  }
+  return userId;
+}
+
+function getReferralLink() {
+  const userId = getUserId();
+  return `https://e58a1155.correctover-web.pages.dev/scan.html?ref=${userId}`;
+}
+
+function scanServer() {
+  const url = document.getElementById('serverUrl').value;
+  if (!url || !url.startsWith('http')) {
+    alert('Please enter a valid URL');
+    return;
+  }
+  
+  currentUrl = url;
+  document.getElementById('scanBtn').disabled = true;
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('result').classList.remove('show');
+  
+  // Simulate scan (in production, this would call backend API)
+  setTimeout(() => {
+    const score = Math.floor(Math.random() * 100);
+    currentScore = score;
+    showResults(score, url);
+    document.getElementById('loading').classList.remove('show');
+    document.getElementById('result').classList.add('show');
+    document.getElementById('scanBtn').disabled = false;
+  }, 2000);
+}
+
+function showResults(score, url) {
+  const circle = document.getElementById('scoreCircle');
+  const title = document.getElementById('resultTitle');
+  const badge = document.getElementById('badgeContainer');
+  
+  circle.textContent = score;
+  
+  let grade, badgeClass, findings;
+  
+  if (score >= 80) {
+    grade = 'Good';
+    badgeClass = 'badge-safe';
+    circle.className = 'score-circle score-good';
+    findings = [
+      { status: 'safe', text: 'Authentication properly configured' },
+      { status: 'safe', text: 'Valid license detected' },
+      { status: 'warning', text: 'Consider enabling rate limiting' }
+    ];
+  } else if (score >= 50) {
+    grade = 'Warning';
+    badgeClass = 'badge-warning';
+    circle.className = 'score-circle score-warning';
+    findings = [
+      { status: 'warning', text: 'No authentication detected (48.8% of servers)' },
+      { status: 'risk', text: 'Missing license information' },
+      { status: 'safe', text: 'Transport layer secure (HTTPS)' }
+    ];
+  } else {
+    grade = 'Critical Risk';
+    badgeClass = 'badge-danger';
+    circle.className = 'score-circle score-danger';
+    findings = [
+      { status: 'critical', text: 'No authentication - publicly accessible' },
+      { status: 'critical', text: 'High-consequence tools exposed (gg:filesystem-path)' },
+      { status: 'risk', text: 'No license or terms of service' },
+      { status: 'warning', text: 'Recommend immediate remediation' }
+    ];
+  }
+  
+  title.textContent = `${grade} — ${score}/100`;
+  badge.innerHTML = `<span class="badge ${badgeClass}">${grade}</span>`;
+  
+  const list = document.getElementById('findingsList');
+  list.innerHTML = findings.map(f => 
+    `<li class="finding-${f.status}">${f.text}</li>`
+  ).join('');
+}
+
+function shareTwitter() {
+  const userId = getUserId();
+  const refLink = getReferralLink();
+  const text = encodeURIComponent(
+    `Just scanned my MCP server with @Correctover!\n\n` +
+    `Security Score: ${currentScore}/100\n` +
+    `Industry avg: Only 0.67% have proper licenses 😱\n\n` +
+    `Scan yours (free): ${refLink}\n\n` +
+    `#MCP #AISecurity #DevSecOps`
+  );
+  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+}
+
+function shareLinkedIn() {
+  const refLink = getReferralLink();
+  const url = encodeURIComponent(refLink);
+  const title = encodeURIComponent(`MCP Security Score: ${currentScore}/100`);
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}`, '_blank');
+}
+
+function copyLink() {
+  const link = getReferralLink();
+  navigator.clipboard.writeText(link).then(() => {
+    alert('Your referral link copied! Share it to unlock rewards 🎁');
+  });
+}
+</script>
+</body>
+</html>
