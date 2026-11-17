@@ -1,3 +1,8 @@
+> ⚠️ **DEPRECATED — merged into [`correctover-scan`](https://github.com/DSHCorrectover/correctover-scan)** (npm: `correctover-scan`, the maintained scanner: 32 releases, config + bundle checks, current v3.5.0).
+> This repo is kept frozen for history; new issues and PRs should go to correctover-scan. See the archive note below for what this variant uniquely did.
+
+**What this variant uniquely did:** free web-based audit front-end with viral referral loop. The audit logic moves under correctover-scan; the web front-end decision (keep as hosted tool vs archive) is tracked separately.
+
 # 🔍 Correctover - MCP Security Scanner
 
 [**Commercial verification engagements — USD 8,000–15,000, court-ready dossier**](https://dshcorrectover.github.io/correctover-recovery-admission/services.html) · [**Independent audit & conformance**](https://dshcorrectover.github.io/correctover-recovery-admission/services.html)
