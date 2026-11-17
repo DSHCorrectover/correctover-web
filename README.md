@@ -1,5 +1,7 @@
 # 🔍 Correctover - MCP Security Scanner
 
+[**Commercial verification engagements — USD 8,000–15,000, court-ready dossier**](https://dshcorrectover.github.io/correctover-recovery-admission/services.html) · [**Independent audit & conformance**](https://dshcorrectover.github.io/correctover-recovery-admission/services.html)
+
 [![CI](https://img.shields.io/github/actions/workflow/status/DSHCorrectover/correctover-web/ci.yml)](https://github.com/DSHCorrectover/correctover-web/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Census](https://img.shields.io/badge/Census-42,163_servers-blue)](https://correctover-census.pages.dev)
